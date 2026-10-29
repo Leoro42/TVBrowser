@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Старт</title>
+<style>
+  :root { --bg:#0b1220; --card:#16213a; --accent:#3b82f6; --text:#eef2ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:Roboto,Arial,sans-serif; padding:4vh 5vw; }
+  h1 { font-size:34px; margin:0 0 3vh; font-weight:500; }
+  .search { display:flex; gap:16px; margin-bottom:4vh; }
+  input { flex:1; font-size:28px; padding:18px 22px; border-radius:14px; border:3px solid transparent; background:var(--card); color:var(--text); outline:none; }
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+  .tile, button { display:flex; align-items:center; justify-content:center; text-align:center; min-height:130px;
+    font-size:28px; color:var(--text); background:var(--card); border-radius:18px; text-decoration:none;
+    border:3px solid transparent; outline:none; cursor:pointer; }
+  button { min-height:0; padding:18px 28px; font-family:inherit; }
+  .tile:focus, input:focus, button:focus { border-color:var(--accent); background:#1e3a8a; transform:scale(1.04); }
+  .happ { background:#14532d; } .happ:focus { background:#16a34a; }
+  .hint { margin-top:4vh; font-size:20px; opacity:.6; line-height:1.5; }
+</style></head>
+<body>
+<h1>Что смотрим?</h1>
+<div class="search">
+  <input id="q" type="text" placeholder="Адрес сайта или поисковый запрос" autofocus>
+  <button onclick="go()">Найти</button>
+</div>
+<div class="grid">
+  <a class="tile" href="https://www.youtube.com">YouTube</a>
+  <a class="tile" href="https://rutube.ru">RuTube</a>
+  <a class="tile" href="https://vkvideo.ru">VK Видео</a>
+  <a class="tile" href="https://hd.kinopoisk.ru">Кинопоиск</a>
+  <a class="tile" href="https://ya.ru">Яндекс</a>
+  <a class="tile" href="https://www.google.com">Google</a>
+  <a class="tile" href="https://www.twitch.tv">Twitch</a>
+  <a class="tile" href="https://ru.wikipedia.org">Википедия</a>
+  <a class="tile happ" href="#" onclick="happ();return false;">🛡 Happ</a>
+  <a class="tile" href="#" onclick="quit();return false;">Выход</a>
+</div>
+<div class="hint">
+  Стрелки и ОК — выбор. На сайтах появляется курсор: стрелки двигают, ОК — клик, у края экрана страница прокручивается.<br>
+  Кнопка MENU — вкл/выкл курсор. Назад — назад по страницам. Долгое Назад — домой.
+</div>
+<script>
+  function go(){
+    var v=document.getElementById('q').value.trim(); if(!v) return;
+    if(/^https?:\/\//i.test(v)) location.href=v;
+    else if(/^[^\s]+\.[a-z]{2,}(\/.*)?$/i.test(v)) location.href='https://'+v;
+    else location.href='https://yandex.ru/search/?text='+encodeURIComponent(v);
+  }
+  document.getElementById('q').addEventListener('keydown',function(e){ if(e.key==='Enter') go(); });
+  function happ(){ if(window.Android) Android.openHapp(); }
+  function quit(){ if(window.Android) Android.exitApp(); }
+</script>
+</body></html>
